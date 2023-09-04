@@ -82,14 +82,26 @@ export default {
       image.crossOrigin = 'Anonymous';
       image.src = this.imageUrl;
       image.onload = () => {
-        const newWidth = image.width * (this.cardHeight / image.height);
-        this.ctx.drawImage(
-          image,
-          this.cardWidth / 2 - newWidth / 2,
-          0,
-          newWidth,
-          this.cardHeight
-        );
+        const aspectRatio = image.width / image.height;
+        const canvasAspectRatio = this.cardWidth / this.cardHeight;
+
+        let newWidth, newHeight, offsetX, offsetY;
+
+        if (aspectRatio > canvasAspectRatio) {
+          // Image is wider, adjust height
+          newWidth = this.cardWidth;
+          newHeight = this.cardWidth / aspectRatio;
+          offsetX = 0;
+          offsetY = (this.cardHeight - newHeight) / 2;
+        } else {
+          // Image is taller, adjust width
+          newHeight = this.cardHeight;
+          newWidth = this.cardHeight * aspectRatio;
+          offsetY = 0;
+          offsetX = (this.cardWidth - newWidth) / 2;
+        }
+
+        this.ctx.drawImage(image, offsetX, offsetY, newWidth, newHeight);
         this.overlayLoaded = true;
       };
     },
