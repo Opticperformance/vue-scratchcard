@@ -82,7 +82,14 @@ export default {
       image.crossOrigin = 'Anonymous';
       image.src = this.imageUrl;
       image.onload = () => {
-        this.ctx.drawImage(image, 0, 0, this.cardWidth, this.cardHeight);
+        const newWidth = image.width * (this.cardHeight / image.height);
+        this.ctx.drawImage(
+          image,
+          this.cardWidth / 2 - newWidth / 2,
+          0,
+          newWidth,
+          this.cardHeight
+        );
         this.overlayLoaded = true;
       };
     },
