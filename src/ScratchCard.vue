@@ -87,7 +87,7 @@ export default {
 
         let newWidth, newHeight, offsetX, offsetY;
 
-        if (aspectRatio > canvasAspectRatio) {
+        if (aspectRatio < canvasAspectRatio) {
           newWidth = this.cardWidth;
           newHeight = this.cardWidth / aspectRatio;
           offsetX = 0;
