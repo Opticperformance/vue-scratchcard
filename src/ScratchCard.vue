@@ -102,7 +102,7 @@ export default {
 
         if (this.blurred) {
           this.ctx.drawImage(image, offsetX, offsetY, newWidth, newHeight);
-          this.ctx.filter = 'blur(10px)';
+          this.ctx.filter = `blur(${this.cardWidth * 0.02}px)`;
         }
 
         this.ctx.drawImage(image, offsetX, offsetY, newWidth, newHeight);
