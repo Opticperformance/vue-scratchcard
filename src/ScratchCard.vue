@@ -3,7 +3,7 @@
     <canvas @mousedown="handleMouseDown" @mousemove="handleMouseMove" @mouseup="handleMouseUp"
             @touchstart="handleMouseDown" @touchmove="handleMouseMove" @touchend="handleMouseUp"
             ref="canvas" class="scratchcard-overlay"></canvas>
-    <div v-if="overlayLoaded" class="scratchcard-content">
+    <div :style="{visibility: !overlayLoaded ? 'hidden' : null}" class="scratchcard-content">
       <slot></slot>
     </div>
   </div>
@@ -55,6 +55,7 @@ export default {
     finishPercent: Number,
     forceReveal: Boolean,
     onComplete: Function,
+    blurred: Boolean,
   },
 
   data() {
@@ -99,7 +100,13 @@ export default {
           offsetX = (this.cardWidth - newWidth) / 2;
         }
 
+        if (this.blurred) {
+          this.ctx.drawImage(image, offsetX, offsetY, newWidth, newHeight);
+          this.ctx.filter = 'blur(10px)';
+        }
+
         this.ctx.drawImage(image, offsetX, offsetY, newWidth, newHeight);
+        this.ctx.filter = 'none';
         this.overlayLoaded = true;
       };
     },
