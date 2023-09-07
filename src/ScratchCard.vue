@@ -55,7 +55,7 @@ export default {
     finishPercent: Number,
     forceReveal: Boolean,
     onComplete: Function,
-    blurred: Boolean,
+    fog: Boolean,
   },
 
   data() {
@@ -100,13 +100,20 @@ export default {
           offsetX = (this.cardWidth - newWidth) / 2;
         }
 
-        if (this.blurred) {
+        if (this.fog) {
           this.ctx.drawImage(image, offsetX, offsetY, newWidth, newHeight);
           this.ctx.filter = `blur(${this.cardWidth * 0.02}px)`;
         }
 
         this.ctx.drawImage(image, offsetX, offsetY, newWidth, newHeight);
         this.ctx.filter = 'none';
+        
+        if(this.fog) {
+          this.ctx.globalCompositeOperation = 'luminosity';
+          this.ctx.fillStyle = 'rgba(255,255,255,0.15)';
+          this.ctx.fillRect(0, 0, this.cardWidth, this.cardHeight);
+        }
+
         this.overlayLoaded = true;
       };
     },
@@ -120,10 +127,18 @@ export default {
 
     scratchAt(x, y) {
       if (this.brushUrl) {
+        const aspectRatio = this.brush.width / this.brush.height;
+        const newWidth = this.cardWidth * 0.2;
+        const newHeight = newWidth / aspectRatio;
+        const xPos = x - newWidth / 2;
+        const yPos = y - newHeight / 2;
+
         this.ctx.drawImage(
           this.brush,
-          x - this.brush.width / 2,
-          y - this.brush.height / 2,
+          xPos,
+          yPos,
+          newWidth,
+          newHeight
         );
       } else {
         this.ctx.beginPath();
