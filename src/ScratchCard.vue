@@ -3,7 +3,7 @@
     <canvas @mousedown="handleMouseDown" @mousemove="handleMouseMove" @mouseup="handleMouseUp"
             @touchstart="handleMouseDown" @touchmove="handleMouseMove" @touchend="handleMouseUp"
             ref="canvas" class="scratchcard-overlay"></canvas>
-    <div :style="{visibility: !overlayLoaded ? 'hidden' : null}" class="scratchcard-content">
+    <div v-if="overlayLoaded && !externalGain" class="scratchcard-content">
       <slot></slot>
     </div>
   </div>
@@ -56,6 +56,7 @@ export default {
     forceReveal: Boolean,
     onComplete: Function,
     fog: Boolean,
+    externalGain: Boolean,
   },
 
   data() {
@@ -115,6 +116,7 @@ export default {
         }
 
         this.overlayLoaded = true;
+        this.$emit('overlayload');
       };
     },
 
