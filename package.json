@@ -1,6 +1,6 @@
 {
   "name": "op-vue-scratchcard",
-  "version": "1.4.1a",
+  "version": "1.4.2a",
   "description": "A Vue.js component that displays a scratchcard",
   "main": "dist/vue-scratchcard.js",
   "scripts": {

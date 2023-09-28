@@ -57,6 +57,7 @@ export default {
     onComplete: Function,
     fog: Boolean,
     externalGain: Boolean,
+    origin: String,
   },
 
   data() {
@@ -84,7 +85,7 @@ export default {
         method: 'GET',
         mode: 'cors',
         headers: {
-          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Origin': this.origin,
         }
       })
       .then((response) => response.blob())
