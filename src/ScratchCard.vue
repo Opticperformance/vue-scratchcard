@@ -84,7 +84,7 @@ export default {
     },
 
     drawImage() {
-      fetch(this.imageUrl, { agent: this.httpsAgent })
+      fetch(this.imageUrl)
       .then((response) => response.blob())
       .then((blob) => URL.createObjectURL(blob))
       .then((url) => {
