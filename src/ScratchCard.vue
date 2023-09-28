@@ -57,10 +57,6 @@ export default {
     onComplete: Function,
     fog: Boolean,
     externalGain: Boolean,
-    httpsAgent: {
-      type: Object,
-      default: () => undefined,
-    }
   },
 
   data() {
@@ -84,51 +80,44 @@ export default {
     },
 
     drawImage() {
-      fetch(this.imageUrl)
-      .then((response) => response.blob())
-      .then((blob) => URL.createObjectURL(blob))
-      .then((url) => {
-        const image = new Image();
-        image.src = url;
-        image.onload = () => {
-          const aspectRatio = image.width / image.height;
-          const canvasAspectRatio = this.cardWidth / this.cardHeight;
+      const image = new Image();
+      image.crossOrigin = 'Anonymous';
+      image.src = this.imageUrl;
+      image.onload = () => {
+        const aspectRatio = image.width / image.height;
+        const canvasAspectRatio = this.cardWidth / this.cardHeight;
 
-          let newWidth, newHeight, offsetX, offsetY;
+        let newWidth, newHeight, offsetX, offsetY;
 
-          if (aspectRatio < canvasAspectRatio) {
-            newWidth = this.cardWidth;
-            newHeight = this.cardWidth / aspectRatio;
-            offsetX = 0;
-            offsetY = (this.cardHeight - newHeight) / 2;
-          } else {
-            newHeight = this.cardHeight;
-            newWidth = this.cardHeight * aspectRatio;
-            offsetY = 0;
-            offsetX = (this.cardWidth - newWidth) / 2;
-          }
+        if (aspectRatio < canvasAspectRatio) {
+          newWidth = this.cardWidth;
+          newHeight = this.cardWidth / aspectRatio;
+          offsetX = 0;
+          offsetY = (this.cardHeight - newHeight) / 2;
+        } else {
+          newHeight = this.cardHeight;
+          newWidth = this.cardHeight * aspectRatio;
+          offsetY = 0;
+          offsetX = (this.cardWidth - newWidth) / 2;
+        }
 
-          if (this.fog) {
-            this.ctx.drawImage(image, offsetX, offsetY, newWidth, newHeight);
-            this.ctx.filter = `blur(${this.cardWidth * 0.02}px)`;
-          }
-
+        if (this.fog) {
           this.ctx.drawImage(image, offsetX, offsetY, newWidth, newHeight);
-          this.ctx.filter = 'none';
-          
-          if(this.fog) {
-            this.ctx.globalCompositeOperation = 'luminosity';
-            this.ctx.fillStyle = 'rgba(255,255,255,0.15)';
-            this.ctx.fillRect(0, 0, this.cardWidth, this.cardHeight);
-          }
+          this.ctx.filter = `blur(${this.cardWidth * 0.02}px)`;
+        }
 
-          this.overlayLoaded = true;
-          this.$emit('overlayload');
-        };
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+        this.ctx.drawImage(image, offsetX, offsetY, newWidth, newHeight);
+        this.ctx.filter = 'none';
+        
+        if(this.fog) {
+          this.ctx.globalCompositeOperation = 'luminosity';
+          this.ctx.fillStyle = 'rgba(255,255,255,0.15)';
+          this.ctx.fillRect(0, 0, this.cardWidth, this.cardHeight);
+        }
+
+        this.overlayLoaded = true;
+        this.$emit('overlayload');
+      };
     },
 
     prepBrush() {
