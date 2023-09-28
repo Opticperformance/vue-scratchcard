@@ -57,7 +57,10 @@ export default {
     onComplete: Function,
     fog: Boolean,
     externalGain: Boolean,
-    origin: String,
+    httpsAgent: {
+      type: Object,
+      default: () => undefined,
+    }
   },
 
   data() {
@@ -81,7 +84,7 @@ export default {
     },
 
     drawImage() {
-      fetch(this.imageUrl)
+      fetch(this.imageUrl, { agent: this.httpsAgent })
       .then((response) => response.blob())
       .then((blob) => URL.createObjectURL(blob))
       .then((url) => {
