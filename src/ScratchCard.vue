@@ -85,7 +85,10 @@ export default {
         method: 'GET',
         mode: 'no-cors'
       })
-      .then((response) => response.blob())
+      .then((response) => {
+        console.log(response);
+        return response.blob();
+      })
       .then((blob) => URL.createObjectURL(blob))
       .then((url) => {
         const image = new Image();
@@ -127,6 +130,9 @@ export default {
           this.$emit('overlayload');
         };
       })
+      .catch((error) => {
+        console.error(error);
+      });
     },
 
     prepBrush() {
