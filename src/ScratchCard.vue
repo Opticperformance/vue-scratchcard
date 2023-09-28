@@ -87,9 +87,12 @@ export default {
       })
       .then((response) => {
         console.log(response);
-        return response.blob();
+        return response.arrayBuffer();
       })
-      .then((blob) => URL.createObjectURL(blob))
+      .then((ab) => {
+        const blob = new Blob([ab], { type: 'image/png' });
+        return URL.createObjectURL(blob);
+      })
       .then((url) => {
         const image = new Image();
         image.crossOrigin = 'Anonymous';
