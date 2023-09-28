@@ -85,6 +85,7 @@ export default {
       .then((blob) => URL.createObjectURL(blob))
       .then((url) => {
         const image = new Image();
+        image.crossOrigin = 'Anonymous';
         image.src = url;
         image.onload = () => {
           const aspectRatio = image.width / image.height;
