@@ -81,21 +81,11 @@ export default {
     },
 
     drawImage() {
-      fetch(this.imageUrl, { 
-        method: 'GET',
-        mode: 'no-cors'
-      })
-      .then((response) => {
-        console.log(response);
-        return response.arrayBuffer();
-      })
-      .then((ab) => {
-        const blob = new Blob([ab], { type: 'image/png' });
-        return URL.createObjectURL(blob);
-      })
+      fetch(this.imageUrl)
+      .then((response) => response.blob())
+      .then((blob) => URL.createObjectURL(blob))
       .then((url) => {
         const image = new Image();
-        image.crossOrigin = 'Anonymous';
         image.src = url;
         image.onload = () => {
           const aspectRatio = image.width / image.height;
