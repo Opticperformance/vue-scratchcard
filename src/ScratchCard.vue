@@ -83,10 +83,7 @@ export default {
     drawImage() {
       fetch(this.imageUrl, { 
         method: 'GET',
-        mode: 'cors',
-        headers: {
-          'Access-Control-Allow-Origin': this.origin,
-        }
+        mode: 'no-cors'
       })
       .then((response) => response.blob())
       .then((blob) => URL.createObjectURL(blob))
