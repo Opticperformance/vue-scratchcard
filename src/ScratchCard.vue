@@ -52,11 +52,27 @@ export default {
     brushUrl: String,
     cardWidth: Number,
     cardHeight: Number,
-    finishPercent: Number,
-    forceReveal: Boolean,
+    finishPercent: {
+      type: Number,
+      default: Infinity,
+    },
+    forceReveal: {
+      type: Boolean,
+      default: false,
+    },
     onComplete: Function,
-    fog: Boolean,
-    externalGain: Boolean,
+    fog: {
+      type: Boolean,
+      default: false,
+    },
+    externalGain: {
+      type: Boolean,
+      default: false,
+    },
+    cover: {
+      type: Boolean,
+      default: true,
+    }
   },
 
   data() {
@@ -89,7 +105,7 @@ export default {
 
         let newWidth, newHeight, offsetX, offsetY;
 
-        if (aspectRatio < canvasAspectRatio) {
+        if ((this.cover && aspectRatio < canvasAspectRatio) || (!this.cover && aspectRatio > canvasAspectRatio)) {
           newWidth = this.cardWidth;
           newHeight = this.cardWidth / aspectRatio;
           offsetX = 0;
