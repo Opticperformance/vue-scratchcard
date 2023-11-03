@@ -1,6 +1,6 @@
 <template>
   <div class="scratchcard" :style="`width:${cardWidth}px; height:${cardHeight}px`">
-    <canvas :style="{display: debugReveal && 'none'}" @mousedown="handleMouseDown" @mousemove="handleMouseMove" @mouseup="handleMouseUp"
+    <canvas :style="{display: debugReveal ? 'none' : null}" @mousedown="handleMouseDown" @mousemove="handleMouseMove" @mouseup="handleMouseUp"
             @touchstart="handleMouseDown" @touchmove="handleMouseMove" @touchend="handleMouseUp"
             ref="canvas" class="scratchcard-overlay"></canvas>
     <div v-if="overlayLoaded && !externalGain" class="scratchcard-content">
