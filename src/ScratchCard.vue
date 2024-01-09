@@ -200,6 +200,8 @@ export default {
     },
 
     handlePercentage(filledInPixels = 0) {
+      this.$emit('progress', filledInPixels);
+      
       if (filledInPixels > this.finishPercent) this.reveal();
     },
 
