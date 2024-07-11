@@ -69,6 +69,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    fogDepth: {
+      type: Number,
+      default: 2,
+    },
     externalGain: {
       type: Boolean,
       default: false,
@@ -123,7 +127,7 @@ export default {
 
         if (this.fog) {
           this.ctx.drawImage(image, offsetX, offsetY, newWidth, newHeight);
-          this.ctx.filter = `blur(${this.cardWidth * 0.02}px)`;
+          this.ctx.filter = `blur(${this.cardWidth * this.fogDepth * 0.01}px)`;
         }
 
         this.ctx.drawImage(image, offsetX, offsetY, newWidth, newHeight);
